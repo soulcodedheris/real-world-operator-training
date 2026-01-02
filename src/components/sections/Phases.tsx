@@ -269,7 +269,7 @@ export function Phases() {
                           transition={{ staggerChildren: 0.06 }}
                           className="space-y-3"
                         >
-                          {active.learnings.map((learning, i) => (
+                          {active.learnings.map((learning) => (
                             <motion.li
                               key={learning}
                               variants={staggerItem}
