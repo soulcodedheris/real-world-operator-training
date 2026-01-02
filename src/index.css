@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark Theme Digital Agency Style */
+    --background: 0 0% 5%; /* Deep black (#0D0D0D) */
+    --foreground: 0 0% 98%; /* Off-white text */
+
+    /* High contrast text */
+    --primary: 0 0% 98%; /* Off-white */
+    --primary-foreground: 0 0% 5%; /* Deep black */
+
+    /* Vibrant blue-purple accent (Digital Agency style) */
+    --accent: 250 95% 65%; /* Vibrant blue-purple (#5E6AD2) */
+    --accent-foreground: 0 0% 98%; /* White text on accent */
+    --accent-start: 250 95% 65%; /* Blue-purple start */
+    --accent-end: 270 90% 70%; /* Purple end for gradients */
+
+    /* Dark muted tones */
+    --muted: 0 0% 10%; /* Dark gray (#1A1A1A) */
+    --muted-foreground: 0 0% 65%; /* Medium gray text */
+
+    --card: 0 0% 8%; /* Slightly lighter dark cards */
+    --card-foreground: 0 0% 98%;
+    --border: 0 0% 15%; /* Subtle dark borders */
+    --ring: 250 95% 65%; /* Blue-purple ring for focus */
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    margin: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    min-height: 100vh;
+    background-color: hsl(var(--background));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
