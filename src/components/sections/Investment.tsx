@@ -22,7 +22,7 @@ export function Investment() {
   ];
 
   return (
-    <section className="min-h-screen flex items-start justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-28 bg-background relative overflow-hidden">
+    <section className="min-h-screen min-h-[100svh] flex items-start justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-28 bg-background relative overflow-hidden">
       {/* Ambient accents */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-gradient-accent opacity-[0.08] blur-3xl" />

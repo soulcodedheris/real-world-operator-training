@@ -4,6 +4,18 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      spacing: {
+        // Consistent vertical rhythm for full-screen sections (responsive via clamp)
+        "section-normal": "clamp(4rem, 5vw, 6rem)",
+        "section-loose": "clamp(5rem, 7vw, 8rem)",
+      },
+      fontSize: {
+        // Used via `text-display` for key section headlines
+        display: [
+          "clamp(2rem, 4vw, 3.5rem)",
+          { lineHeight: "1.1", letterSpacing: "-0.02em" },
+        ],
+      },
       colors: {
         // Dark Theme Digital Agency Style
         background: "hsl(0 0% 5%)", // Deep black (#0D0D0D)

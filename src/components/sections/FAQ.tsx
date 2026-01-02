@@ -34,7 +34,7 @@ export function FAQ() {
   ];
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-muted py-20">
+    <section className="min-h-screen min-h-[100svh] flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-muted py-20">
       <div ref={ref} className="max-w-container mx-auto">
         <motion.h2
           initial="hidden"
@@ -47,10 +47,10 @@ export function FAQ() {
         <Accordion type="single" collapsible className="w-full">
           {faqs.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-left text-lg font-semibold text-primary">
+              <AccordionTrigger className="text-left text-base sm:text-lg font-semibold text-primary">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-lg text-foreground">
+              <AccordionContent className="text-base sm:text-lg text-foreground">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

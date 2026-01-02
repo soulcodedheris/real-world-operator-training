@@ -32,7 +32,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 py-section-normal bg-background">
+    <section className="min-h-screen min-h-[100svh] flex items-center px-4 sm:px-6 lg:px-8 py-section-normal bg-background">
       <div ref={ref} className="max-w-container mx-auto">
         <motion.h2
           initial="hidden"

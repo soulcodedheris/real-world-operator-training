@@ -9,7 +9,7 @@ export function Hero() {
   const { fadeInUp, scaleIn } = useAnimationVariants();
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 bg-background relative overflow-hidden">
+    <section className="min-h-screen min-h-[100svh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 bg-background relative overflow-hidden">
       {/* Ambient hero background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-gradient-dark opacity-55" />
@@ -66,12 +66,17 @@ export function Hero() {
             transition={{ delay: 0.25 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
           >
-            <Button size="lg" className="text-lg px-8 py-6" asChild>
+            <Button size="lg" className="text-lg px-8 py-6 w-full sm:w-auto" asChild>
               <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer">
                 Apply to Join the Next Cohort
               </a>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8 py-6 w-full sm:w-auto"
+              asChild
+            >
               <a href="#phases">See the 4-phase journey</a>
             </Button>
           </motion.div>

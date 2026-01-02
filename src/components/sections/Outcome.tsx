@@ -17,7 +17,7 @@ export function Outcome() {
   ];
 
   return (
-    <section className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 bg-gradient-subtle py-section-loose">
+    <section className="min-h-screen min-h-[100svh] flex items-center px-4 sm:px-6 lg:px-8 bg-gradient-subtle py-section-loose">
       <div ref={ref} className="max-w-container mx-auto">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left-aligned content */}
@@ -95,7 +95,7 @@ export function Outcome() {
               transition={{ delay: 0.8 }}
               className="relative mt-10 lg:max-w-xl py-2"
             >
-              <p className="text-2xl sm:text-3xl font-bold leading-tight text-primary lg:whitespace-nowrap">
+              <p className="text-2xl sm:text-3xl font-bold leading-tight text-primary xl:whitespace-nowrap">
                 This is not motivation. This is{" "}
                 <span className="bg-gradient-accent bg-clip-text text-transparent">
                   capability

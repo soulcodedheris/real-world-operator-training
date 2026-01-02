@@ -21,7 +21,7 @@ export function Audience() {
   ];
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-muted py-20">
+    <section className="min-h-screen min-h-[100svh] flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-muted py-20">
       <div ref={ref} className="max-w-container mx-auto">
         <motion.h2
           initial="hidden"
@@ -45,11 +45,11 @@ export function Audience() {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               variants={staggerContainer}
-              className="space-y-3 text-lg text-foreground"
+              className="space-y-3 text-lg text-foreground list-disc pl-5"
             >
               {forItems.map((item, index) => (
                 <motion.li key={index} variants={staggerItem}>
-                  • {item}
+                  {item}
                 </motion.li>
               ))}
             </motion.ul>
@@ -69,11 +69,11 @@ export function Audience() {
               animate={isInView ? "visible" : "hidden"}
               variants={staggerContainer}
               transition={{ delay: 0.3 }}
-              className="space-y-3 text-lg text-muted-foreground"
+              className="space-y-3 text-lg text-muted-foreground list-disc pl-5"
             >
               {notForItems.map((item, index) => (
                 <motion.li key={index} variants={staggerItem}>
-                  • {item}
+                  {item}
                 </motion.li>
               ))}
             </motion.ul>

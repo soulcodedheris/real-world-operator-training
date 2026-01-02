@@ -24,7 +24,7 @@ export function FinalCTA() {
   ];
 
   return (
-    <section className="min-h-screen flex items-start justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-28 relative overflow-hidden bg-background">
+    <section className="min-h-screen min-h-[100svh] flex items-start justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-28 relative overflow-hidden bg-background">
       {/* Ambient closing “hero” background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-gradient-dark opacity-50" />
@@ -151,7 +151,7 @@ export function FinalCTA() {
                   >
                     <Button
                       size="lg"
-                      className="text-lg px-8 py-6 hover:scale-[1.02]"
+                      className="text-lg px-8 py-6 hover:scale-[1.02] w-full sm:w-auto"
                       asChild
                     >
                       <a

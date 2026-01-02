@@ -9,7 +9,7 @@ export function Differentiation() {
     useAnimationVariants();
 
   return (
-    <section className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 py-section-loose bg-muted relative overflow-hidden">
+    <section className="min-h-screen min-h-[100svh] flex items-center px-4 sm:px-6 lg:px-8 py-section-loose bg-muted relative overflow-hidden">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-96 h-96 bg-accent rounded-full blur-3xl" />
@@ -92,7 +92,7 @@ export function Differentiation() {
           transition={{ delay: 0.4 }}
           className="mt-12 py-2"
         >
-          <p className="text-lg sm:text-xl text-primary font-semibold lg:whitespace-nowrap">
+          <p className="text-lg sm:text-xl text-primary font-semibold xl:whitespace-nowrap">
             You are not being trained to look smart. You are being trained to be{" "}
             <span className="bg-gradient-accent bg-clip-text text-transparent">
               useful

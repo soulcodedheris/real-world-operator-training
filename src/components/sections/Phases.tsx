@@ -83,7 +83,7 @@ export function Phases() {
   return (
     <section
       id="phases"
-      className="min-h-screen flex items-start justify-center px-4 sm:px-6 lg:px-8 bg-muted pt-24 pb-28 relative overflow-hidden"
+      className="min-h-screen min-h-[100svh] flex items-start justify-center px-4 sm:px-6 lg:px-8 bg-muted pt-24 pb-28 relative overflow-hidden"
     >
       {/* Ambient background accents (subtle, decorative) */}
       <div className="pointer-events-none absolute inset-0">
@@ -136,7 +136,7 @@ export function Phases() {
                     aria-current={isActive ? "step" : undefined}
                     className={cn(
                       // Fixed height prevents “wobble” when titles/descriptions vary in length.
-                      "text-left min-w-[260px] lg:min-w-0 rounded-xl border px-4 py-4 transition-all h-[112px]",
+                      "text-left min-w-[220px] sm:min-w-[260px] lg:min-w-0 rounded-xl border px-4 py-4 transition-all h-[112px]",
                       "bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/50",
                       "hover:border-accent/50 hover:shadow-glow-accent",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",

@@ -14,7 +14,7 @@ export function PainMirror() {
   ];
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-muted py-20">
+    <section className="min-h-screen min-h-[100svh] flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-muted py-20">
       <div ref={ref} className="max-w-container mx-auto">
         <motion.h2
           initial="hidden"
