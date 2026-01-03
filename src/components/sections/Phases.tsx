@@ -9,11 +9,122 @@ import {
   Route,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useAnimationVariants } from "@/lib/animations";
 import { cn } from "@/lib/utils";
+
+type Phase = {
+  number: string;
+  title: string;
+  weeks: string;
+  description: string;
+  learnings: string[];
+  result: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
+function PhaseDetail({
+  phase,
+  staggerContainer,
+  staggerItem,
+}: {
+  phase: Phase;
+  staggerContainer: Parameters<typeof motion.ul>[0]["variants"];
+  staggerItem: Parameters<typeof motion.li>[0]["variants"];
+}) {
+  const DetailIcon = phase.icon;
+  return (
+    <div className="h-full flex flex-col">
+      {/* Top row: phase badge + meta */}
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+        <div className="flex items-start gap-4">
+          <div className="size-14 aspect-square rounded-full bg-gradient-accent text-accent-foreground flex items-center justify-center font-bold text-2xl shadow-glow-accent">
+            {phase.number}
+          </div>
+          <div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground font-semibold uppercase tracking-wider">
+              <DetailIcon className="h-4 w-4 text-accent" />
+              {phase.weeks}
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold text-primary mt-2 leading-tight">
+              {phase.title}
+            </h3>
+            <p className="text-lg text-foreground mt-3 max-w-2xl leading-relaxed">
+              {phase.description}
+            </p>
+          </div>
+        </div>
+
+        {/* Result pill */}
+        <div className="sm:text-right">
+          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-gradient-accent-subtle px-4 py-2 whitespace-nowrap">
+            <span className="h-2 w-2 rounded-full bg-accent" />
+            <span className="text-sm font-semibold text-muted-foreground">
+              Result:
+            </span>
+            <span className="text-sm font-semibold text-primary">
+              {phase.result}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Learnings */}
+      <div className="mt-8 grid sm:grid-cols-2 gap-6 flex-1">
+        <div>
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            You&apos;ll learn
+          </p>
+          <motion.ul
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            transition={{ staggerChildren: 0.06 }}
+            className="space-y-3"
+          >
+            {phase.learnings.map((learning) => (
+              <motion.li
+                key={learning}
+                variants={staggerItem}
+                className="flex items-start gap-3"
+              >
+                <CheckCircle2 className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
+                <span className="text-foreground leading-relaxed">
+                  {learning}
+                </span>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </div>
+
+        {/* Micro “preview” card */}
+        <div className="rounded-2xl border border-border bg-background/25 p-5 sm:p-6 self-start">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+            What changes for you
+          </p>
+          <p className="text-xl font-bold text-primary leading-snug">
+            You leave this phase with{" "}
+            <span className="bg-gradient-accent bg-clip-text text-transparent">
+              {phase.result}
+            </span>
+          </p>
+          <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
+            It&apos;s designed to feel practical, not theoretical. You understand
+            the logic, then you apply it.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Phases() {
   const { ref, isInView } = useScrollReveal();
@@ -21,7 +132,7 @@ export function Phases() {
   const prefersReducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = React.useState(0);
 
-  const phases = [
+  const phases: Phase[] = [
     {
       number: "1",
       title: "RESET YOUR THINKING",
@@ -78,7 +189,14 @@ export function Phases() {
   ];
 
   const active = phases[activeIndex];
-  const ActiveIcon = active.icon;
+
+  const accordionValue = `phase-${activeIndex}`;
+
+  function handleAccordionChange(value: string | undefined) {
+    if (!value) return;
+    const idx = Number(value.replace("phase-", ""));
+    if (!Number.isNaN(idx)) setActiveIndex(idx);
+  }
 
   return (
     <section
@@ -122,9 +240,66 @@ export function Phases() {
           transition={{ staggerChildren: 0.12 }}
           className="grid lg:grid-cols-12 gap-6 lg:gap-8 relative z-10"
         >
+          {/* Mobile: accordion (no horizontal scrolling) */}
+          <motion.div variants={staggerItem} className="md:hidden">
+            <Card className="border-border bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/50 overflow-hidden relative">
+              <div className="pointer-events-none absolute inset-0">
+                <div className="absolute inset-0 bg-gradient-accent-subtle opacity-25" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-accent" />
+              </div>
+
+              <CardContent className="relative p-4">
+                <Accordion
+                  type="single"
+                  collapsible
+                  value={accordionValue}
+                  onValueChange={handleAccordionChange}
+                  className="w-full"
+                >
+                  {phases.map((phase, idx) => {
+                    const Icon = phase.icon;
+                    return (
+                      <AccordionItem
+                        key={phase.number}
+                        value={`phase-${idx}`}
+                        className="border-border"
+                      >
+                        <AccordionTrigger className="hover:no-underline">
+                          <div className="flex items-start gap-3 min-w-0 pr-3">
+                            <div className="size-10 aspect-square rounded-full bg-gradient-accent-subtle text-accent flex items-center justify-center font-bold ring-1 ring-border/60">
+                              {phase.number}
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                <Icon className="h-4 w-4 text-accent" />
+                                {phase.weeks}
+                              </div>
+                              <div className="font-semibold text-primary leading-snug mt-1">
+                                {phase.title}
+                              </div>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-2">
+                          <div className="pt-2">
+                            <PhaseDetail
+                              phase={phase}
+                              staggerContainer={staggerContainer}
+                              staggerItem={staggerItem}
+                            />
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    );
+                  })}
+                </Accordion>
+              </CardContent>
+            </Card>
+          </motion.div>
+
           {/* Phase selector */}
-          <motion.div variants={staggerItem} className="lg:col-span-4">
-            <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+          <motion.div variants={staggerItem} className="hidden md:block lg:col-span-4">
+            <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
               {phases.map((phase, idx) => {
                 const Icon = phase.icon;
                 const isActive = idx === activeIndex;
@@ -136,7 +311,7 @@ export function Phases() {
                     aria-current={isActive ? "step" : undefined}
                     className={cn(
                       // Fixed height prevents “wobble” when titles/descriptions vary in length.
-                      "text-left min-w-[220px] sm:min-w-[260px] lg:min-w-0 rounded-xl border px-4 py-4 transition-all h-[112px]",
+                      "text-left min-w-[220px] sm:min-w-[260px] md:min-w-0 rounded-xl border px-4 py-4 transition-all h-[112px]",
                       "bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/50",
                       "hover:border-accent/50 hover:shadow-glow-accent",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -194,7 +369,7 @@ export function Phases() {
           </motion.div>
 
           {/* Featured phase panel */}
-          <motion.div variants={staggerItem} className="lg:col-span-8">
+          <motion.div variants={staggerItem} className="hidden md:block lg:col-span-8">
             <Card className="border-border bg-card/70 backdrop-blur supports-[backdrop-filter]:bg-card/50 overflow-hidden relative">
               {/* Decorative gradient frame */}
               <div className="pointer-events-none absolute inset-0">
@@ -222,98 +397,24 @@ export function Phases() {
                     }
                     transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
                   >
-                    {/* Top row: phase badge + meta */}
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-                      <div className="flex items-start gap-4">
-                        <div className="size-14 aspect-square rounded-full bg-gradient-accent text-accent-foreground flex items-center justify-center font-bold text-2xl shadow-glow-accent">
-                          {active.number}
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground font-semibold uppercase tracking-wider">
-                            <ActiveIcon className="h-4 w-4 text-accent" />
-                            {active.weeks}
-                          </div>
-                          <h3 className="text-2xl sm:text-3xl font-bold text-primary mt-2 leading-tight">
-                            {active.title}
-                          </h3>
-                          <p className="text-lg text-foreground mt-3 max-w-2xl leading-relaxed">
-                            {active.description}
-                          </p>
-                        </div>
-                      </div>
+                    <PhaseDetail
+                      phase={active}
+                      staggerContainer={staggerContainer}
+                      staggerItem={staggerItem}
+                    />
 
-                      {/* Result pill */}
-                      <div className="sm:text-right">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-gradient-accent-subtle px-4 py-2 whitespace-nowrap">
-                          <span className="h-2 w-2 rounded-full bg-accent" />
-                          <span className="text-sm font-semibold text-muted-foreground">
-                            Result:
-                          </span>
-                          <span className="text-sm font-semibold text-primary">
-                            {active.result}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Learnings */}
-                    <div className="mt-8 grid sm:grid-cols-2 gap-6 flex-1">
-                      <div>
-                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-                          You&apos;ll learn
-                        </p>
-                        <motion.ul
-                          variants={staggerContainer}
-                          initial="hidden"
-                          animate="visible"
-                          transition={{ staggerChildren: 0.06 }}
-                          className="space-y-3"
-                        >
-                          {active.learnings.map((learning) => (
-                            <motion.li
-                              key={learning}
-                              variants={staggerItem}
-                              className="flex items-start gap-3"
-                            >
-                              <CheckCircle2 className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-                              <span className="text-foreground leading-relaxed">
-                                {learning}
-                              </span>
-                            </motion.li>
-                          ))}
-                        </motion.ul>
-                      </div>
-
-                      {/* Micro “preview” card */}
-                      <div className="rounded-2xl border border-border bg-background/25 p-5 sm:p-6 self-start">
-                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                          What changes for you
-                        </p>
-                        <p className="text-xl font-bold text-primary leading-snug">
-                          You leave this phase with{" "}
-                          <span className="bg-gradient-accent bg-clip-text text-transparent">
-                            {active.result}
-                          </span>
-                        </p>
-                        <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
-                          It&apos;s designed to feel practical, not theoretical.
-                          You understand the logic, then you apply it.
-                        </p>
-
-                        <div className="mt-6">
-                          <Button
-                            variant="outline"
-                            className="w-full justify-between"
-                            onClick={() =>
-                              setActiveIndex((i) => Math.min(i + 1, phases.length - 1))
-                            }
-                            disabled={activeIndex === phases.length - 1}
-                          >
-                            Next phase
-                            <ChevronRight className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
+                    <div className="mt-6">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-between"
+                        onClick={() =>
+                          setActiveIndex((i) => Math.min(i + 1, phases.length - 1))
+                        }
+                        disabled={activeIndex === phases.length - 1}
+                      >
+                        Next phase
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
                     </div>
                   </motion.div>
                 </AnimatePresence>
