@@ -227,10 +227,13 @@ export function Phases() {
   ];
 
   const active = phases[activeIndex];
+  const [mobileAccordionValue, setMobileAccordionValue] = React.useState(
+    `phase-${activeIndex}`
+  );
 
-  const accordionValue = `phase-${activeIndex}`;
-
-  function handleAccordionChange(value: string | undefined) {
+  function handleAccordionChange(value: string) {
+    // Radix sends "" when collapsible accordion is fully closed.
+    setMobileAccordionValue(value);
     if (!value) return;
     const idx = Number(value.replace("phase-", ""));
     if (!Number.isNaN(idx)) setActiveIndex(idx);
@@ -290,7 +293,7 @@ export function Phases() {
                 <Accordion
                   type="single"
                   collapsible
-                  value={accordionValue}
+                  value={mobileAccordionValue}
                   onValueChange={handleAccordionChange}
                   className="w-full"
                 >
@@ -318,7 +321,7 @@ export function Phases() {
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent forceMount className="pt-2">
+                        <AccordionContent className="pt-2">
                           <div className="pt-2">
                             <PhaseDetail
                               phase={phase}
