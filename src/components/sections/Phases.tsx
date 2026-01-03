@@ -33,12 +33,14 @@ type Phase = {
 
 function PhaseDetail({
   phase,
+  motionEnabled,
   staggerContainer,
   staggerItem,
 }: {
   phase: Phase;
-  staggerContainer: Parameters<typeof motion.ul>[0]["variants"];
-  staggerItem: Parameters<typeof motion.li>[0]["variants"];
+  motionEnabled: boolean;
+  staggerContainer?: Parameters<typeof motion.ul>[0]["variants"];
+  staggerItem?: Parameters<typeof motion.li>[0]["variants"];
 }) {
   const DetailIcon = phase.icon;
   return (
@@ -83,26 +85,39 @@ function PhaseDetail({
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
             You&apos;ll learn
           </p>
-          <motion.ul
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-            transition={{ staggerChildren: 0.06 }}
-            className="space-y-3"
-          >
-            {phase.learnings.map((learning) => (
-              <motion.li
-                key={learning}
-                variants={staggerItem}
-                className="flex items-start gap-3"
-              >
-                <CheckCircle2 className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-                <span className="text-foreground leading-relaxed">
-                  {learning}
-                </span>
-              </motion.li>
-            ))}
-          </motion.ul>
+          {motionEnabled ? (
+            <motion.ul
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              transition={{ staggerChildren: 0.06 }}
+              className="space-y-3"
+            >
+              {phase.learnings.map((learning) => (
+                <motion.li
+                  key={learning}
+                  variants={staggerItem}
+                  className="flex items-start gap-3"
+                >
+                  <CheckCircle2 className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-foreground leading-relaxed">
+                    {learning}
+                  </span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          ) : (
+            <ul className="space-y-3">
+              {phase.learnings.map((learning) => (
+                <li key={learning} className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
+                  <span className="text-foreground leading-relaxed">
+                    {learning}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Micro “preview” card */}
@@ -280,12 +295,11 @@ export function Phases() {
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-2">
+                        <AccordionContent forceMount className="pt-2">
                           <div className="pt-2">
                             <PhaseDetail
                               phase={phase}
-                              staggerContainer={staggerContainer}
-                              staggerItem={staggerItem}
+                              motionEnabled={false}
                             />
                           </div>
                         </AccordionContent>
@@ -399,6 +413,7 @@ export function Phases() {
                   >
                     <PhaseDetail
                       phase={active}
+                      motionEnabled
                       staggerContainer={staggerContainer}
                       staggerItem={staggerItem}
                     />
