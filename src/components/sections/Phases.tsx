@@ -34,50 +34,73 @@ type Phase = {
 function PhaseDetail({
   phase,
   motionEnabled,
+  showHeader = true,
   staggerContainer,
   staggerItem,
 }: {
   phase: Phase;
   motionEnabled: boolean;
+  showHeader?: boolean;
   staggerContainer?: Parameters<typeof motion.ul>[0]["variants"];
   staggerItem?: Parameters<typeof motion.li>[0]["variants"];
 }) {
   const DetailIcon = phase.icon;
   return (
     <div className="h-full flex flex-col">
-      {/* Top row: phase badge + meta */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-        <div className="flex items-start gap-4">
-          <div className="size-14 aspect-square rounded-full bg-gradient-accent text-accent-foreground flex items-center justify-center font-bold text-2xl shadow-glow-accent">
-            {phase.number}
-          </div>
-          <div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground font-semibold uppercase tracking-wider">
-              <DetailIcon className="h-4 w-4 text-accent" />
-              {phase.weeks}
+      {showHeader ? (
+        <>
+          {/* Top row: phase badge + meta */}
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="size-14 aspect-square rounded-full bg-gradient-accent text-accent-foreground flex items-center justify-center font-bold text-2xl shadow-glow-accent">
+                {phase.number}
+              </div>
+              <div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground font-semibold uppercase tracking-wider">
+                  <DetailIcon className="h-4 w-4 text-accent" />
+                  {phase.weeks}
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-bold text-primary mt-2 leading-tight">
+                  {phase.title}
+                </h3>
+                <p className="text-lg text-foreground mt-3 max-w-2xl leading-relaxed">
+                  {phase.description}
+                </p>
+              </div>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-primary mt-2 leading-tight">
-              {phase.title}
-            </h3>
-            <p className="text-lg text-foreground mt-3 max-w-2xl leading-relaxed">
-              {phase.description}
-            </p>
-          </div>
-        </div>
 
-        {/* Result pill */}
-        <div className="sm:text-right">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-gradient-accent-subtle px-4 py-2 whitespace-nowrap">
-            <span className="h-2 w-2 rounded-full bg-accent" />
-            <span className="text-sm font-semibold text-muted-foreground">
-              Result:
-            </span>
-            <span className="text-sm font-semibold text-primary">
-              {phase.result}
-            </span>
+            {/* Result pill */}
+            <div className="sm:text-right">
+              <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-gradient-accent-subtle px-4 py-2 whitespace-nowrap">
+                <span className="h-2 w-2 rounded-full bg-accent" />
+                <span className="text-sm font-semibold text-muted-foreground">
+                  Result:
+                </span>
+                <span className="text-sm font-semibold text-primary">
+                  {phase.result}
+                </span>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <p className="text-base text-foreground leading-relaxed">
+            {phase.description}
+          </p>
+          <div className="sm:text-right">
+            <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-gradient-accent-subtle px-4 py-2 whitespace-nowrap">
+              <span className="h-2 w-2 rounded-full bg-accent" />
+              <span className="text-sm font-semibold text-muted-foreground">
+                Result:
+              </span>
+              <span className="text-sm font-semibold text-primary">
+                {phase.result}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Learnings */}
       <div className="mt-8 grid sm:grid-cols-2 gap-6 flex-1">
@@ -285,12 +308,12 @@ export function Phases() {
                               {phase.number}
                             </div>
                             <div className="min-w-0">
-                              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                              <div className="font-semibold text-primary leading-snug">
+                                {phase.title}
+                              </div>
+                              <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-1">
                                 <Icon className="h-4 w-4 text-accent" />
                                 {phase.weeks}
-                              </div>
-                              <div className="font-semibold text-primary leading-snug mt-1">
-                                {phase.title}
                               </div>
                             </div>
                           </div>
@@ -300,6 +323,7 @@ export function Phases() {
                             <PhaseDetail
                               phase={phase}
                               motionEnabled={false}
+                              showHeader={false}
                             />
                           </div>
                         </AccordionContent>
@@ -414,6 +438,7 @@ export function Phases() {
                     <PhaseDetail
                       phase={active}
                       motionEnabled
+                      showHeader
                       staggerContainer={staggerContainer}
                       staggerItem={staggerItem}
                     />
